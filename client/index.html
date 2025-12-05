@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>墨枫CRM系统</title>
+    <!-- 钉钉JSAPI - 仅在真正的钉钉客户端内加载 -->
+    <script>
+      // 检测是否在钉钉环境，如果是则加载钉钉JSAPI
+      // 支持多种检测方式，确保手机端也能正确加载
+      (function() {
+        const userAgent = window.navigator.userAgent;
+        
+        // 检测方式1：User-Agent包含DingTalk（PC端和部分移动端）
+        const hasDingTalkUserAgent = userAgent.indexOf('DingTalk') > -1;
+        
+        // 检测方式2：URL参数中包含钉钉相关参数（移动端可能通过这种方式）
+        const urlParams = new URLSearchParams(window.location.search);
+        const hasDingTalkParams = urlParams.has('dd_debug_h5') || 
+                                 urlParams.has('dd_debug_v1') || 
+                                 urlParams.has('dd_debug_unifiedAppId');
+        
+        // 检测方式3：URL中包含钉钉相关字符串
+        const hasDingTalkInUrl = window.location.href.includes('dd_debug') || 
+                                window.location.href.includes('dingtalk');
+        
+        // 检测方式4：检查是否已经有window.dd（说明JSAPI已加载）
+        const hasDd = typeof window.dd !== 'undefined';
+        
+        // 只要满足任一条件，就加载JSAPI
+        const shouldLoadJSAPI = hasDingTalkUserAgent || hasDingTalkParams || hasDingTalkInUrl || hasDd;
+        
+        if (shouldLoadJSAPI) {
+          console.log('检测到钉钉环境，加载钉钉JSAPI', {
+            hasDingTalkUserAgent,
+            hasDingTalkParams,
+            hasDingTalkInUrl,
+            hasDd
+          });
+          
+          // 如果JSAPI还没加载，则加载它
+          if (!hasDd) {
+            const script = document.createElement('script');
+            script.src = 'https://g.alicdn.com/dingding/dingtalk-jsapi/2.7.13/dingtalk.open.js';
+            script.onerror = function() {
+              console.warn('钉钉JSAPI加载失败，将使用扫码登录方式');
+            };
+            script.onload = function() {
+              console.log('✅ 钉钉JSAPI加载成功');
+            };
+            document.head.appendChild(script);
+          } else {
+            console.log('✅ 钉钉JSAPI已存在，无需重复加载');
+          }
+        } else {
+          console.log('未检测到钉钉环境，不加载JSAPI，将使用扫码登录', {
+            userAgent: userAgent.substring(0, 100),
+            url: window.location.href.substring(0, 100)
+          });
+        }
+      })();
+    </script>
+    <!-- 钉钉扫码登录SDK - 用于生成二维码 -->
+    <script src="https://g.alicdn.com/dingding/h5-dingtalk-login/0.21.0/ddlogin.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
