@@ -246,22 +246,33 @@ async function ensurePortAvailable(port, maxRetries = 5) {
   return true;
 }
 
-// 启动服务器
-(async () => {
-  try {
-    // 先连接数据库
-    await connectDB();
-    
-    // 检查并释放端口
-    const portAvailable = await ensurePortAvailable(PORT);
-    if (!portAvailable) {
-      console.error(`\n❌ 无法释放端口 ${PORT}，请手动终止占用该端口的进程`);
-      console.error('   或修改 .env 文件中的 PORT 环境变量使用其他端口\n');
-      process.exit(1);
-    }
-    
-    // 启动HTTP服务器
-    const server = app.listen(PORT, () => {
+// 在 Vercel 环境下初始化数据库连接（延迟初始化）
+if (process.env.VERCEL) {
+  // Vercel serverless function 环境下，延迟连接数据库
+  // 数据库连接会在第一次请求时自动建立（通过连接池）
+  console.log('Vercel 环境：使用延迟数据库连接');
+}
+
+// 导出 app 供 Vercel serverless function 使用
+module.exports = app;
+
+// 启动服务器（仅在非 Vercel 环境下运行）
+if (!process.env.VERCEL) {
+  (async () => {
+    try {
+      // 先连接数据库
+      await connectDB();
+      
+      // 检查并释放端口
+      const portAvailable = await ensurePortAvailable(PORT);
+      if (!portAvailable) {
+        console.error(`\n❌ 无法释放端口 ${PORT}，请手动终止占用该端口的进程`);
+        console.error('   或修改 .env 文件中的 PORT 环境变量使用其他端口\n');
+        process.exit(1);
+      }
+      
+      // 启动HTTP服务器
+      const server = app.listen(PORT, () => {
       console.log('\n==========================================');
       console.log('✅ CRM系统服务器启动成功');
       console.log(`   端口: ${PORT}`);
@@ -317,7 +328,8 @@ async function ensurePortAvailable(port, maxRetries = 5) {
     console.error('数据库连接失败，无法启动服务器:', error);
     process.exit(1);
   }
-})();
+  })();
+}
 
 // 优雅关闭
 process.on('SIGTERM', async () => {

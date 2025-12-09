@@ -11,6 +11,11 @@ const getApiBaseUrl = () => {
   // 根据当前域名推断 API 地址
   const currentOrigin = window.location.origin;
   
+  // 如果是 Vercel 部署域名，使用相同的域名
+  if (currentOrigin.includes('vercel.app') || currentOrigin.includes('vercel.dev')) {
+    return `${currentOrigin}/api`;
+  }
+  
   // 如果是 cpolar 域名，使用相同的域名
   if (currentOrigin.includes('cpolar.top') || currentOrigin.includes('cpolar.io')) {
     return `${currentOrigin}/api`;
@@ -21,7 +26,7 @@ const getApiBaseUrl = () => {
     return 'http://localhost:3000/api';
   }
   
-  // 默认使用当前域名
+  // 默认使用当前域名（适用于所有部署环境）
   return `${currentOrigin}/api`;
 };
 

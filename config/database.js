@@ -34,7 +34,11 @@ const connectDB = async () => {
     console.error('   1. MySQL服务是否运行');
     console.error('   2. 数据库、用户名、密码是否正确');
     console.error('   3. 数据库用户是否有权限');
-    process.exit(1);
+    // 在 Vercel 环境下不退出进程，让 serverless function 可以重试
+    if (!process.env.VERCEL) {
+      process.exit(1);
+    }
+    throw error; // 在 Vercel 环境下抛出错误，让调用者处理
   }
 };
 
