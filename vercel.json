@@ -4,11 +4,6 @@
   "outputDirectory": "client/dist",
   "installCommand": "npm install && cd client && npm install",
   "framework": null,
-  "functions": {
-    "api/index.js": {
-      "runtime": "nodejs18.x"
-    }
-  },
   "rewrites": [
     {
       "source": "/api/(.*)",
