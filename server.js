@@ -7,8 +7,14 @@ const { connectDB } = require('./config/database');
 const { ensureDatabaseSchema } = require('./utils/dbMigrations');
 const dingTalkStreamService = require('./services/dingTalkStreamService');
 
-// 加载环境变量
-dotenv.config();
+// 加载环境变量（优先加载，确保数据库配置能读取到）
+const envPath = path.join(__dirname, '.env');
+dotenv.config({ path: envPath });
+
+// 验证关键环境变量
+if (!process.env.DB_PASSWORD) {
+  console.warn('⚠️  警告: DB_PASSWORD 未设置，请检查 .env 文件');
+}
 
 const app = express();
 
