@@ -278,11 +278,12 @@ if (!process.env.VERCEL) {
       }
       
       // 启动HTTP服务器
-      const server = app.listen(PORT, () => {
+      const server = app.listen(PORT, '0.0.0.0', () => {
       console.log('\n==========================================');
       console.log('✅ CRM系统服务器启动成功');
       console.log(`   端口: ${PORT}`);
       console.log(`   访问: http://localhost:${PORT}`);
+      console.log(`   访问: http://127.0.0.1:${PORT}`);
       console.log('==========================================\n');
       
       // 延迟启动Stream服务，确保数据库连接完成

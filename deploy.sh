@@ -39,16 +39,23 @@ echo "✅ 前端依赖安装完成"
 echo ""
 echo "📝 步骤 3/5: 检查环境变量配置..."
 if [ ! -f ".env" ]; then
-    echo "⚠️  警告: .env 文件不存在"
-    echo "📋 正在从 .env.example 创建 .env 文件..."
-    if [ -f ".env.example" ]; then
-        cp .env.example .env
-        echo "✅ 已创建 .env 文件，请编辑并填入正确的配置"
-        echo "⚠️  重要: 请修改 .env 文件中的数据库配置和域名配置"
-    else
-        echo "❌ 错误: .env.example 文件不存在"
-        exit 1
-    fi
+    echo "⚠️  警告: .env 文件不存在，正在创建..."
+    cat > .env << 'EOF'
+PORT=3000
+NODE_ENV=production
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=crm
+DB_USER=crm
+DB_PASSWORD=
+JWT_SECRET=
+JWT_EXPIRE=7d
+FRONTEND_URL=https://crm.yunshangdingchuang.cn
+API_BASE_URL=https://crm.yunshangdingchuang.cn/api
+SERVER_URL=https://crm.yunshangdingchuang.cn
+EOF
+    echo "✅ 已创建 .env 文件"
+    echo "⚠️  重要: 请编辑 .env 文件，填入数据库密码和 JWT_SECRET"
 else
     echo "✅ .env 文件已存在"
 fi

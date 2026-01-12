@@ -43,18 +43,16 @@ if(-not (Test-Path $envPath)){
     @"
 PORT=3000
 NODE_ENV=production
-
 DB_HOST=localhost
 DB_PORT=3306
 DB_NAME=crm
 DB_USER=crm
-DB_PASSWORD=please_change
-
-JWT_SECRET=please_change_random_string
+DB_PASSWORD=
+JWT_SECRET=
 JWT_EXPIRE=7d
-
 FRONTEND_URL=https://crm.yunshangdingchuang.cn
 API_BASE_URL=https://crm.yunshangdingchuang.cn/api
+SERVER_URL=https://crm.yunshangdingchuang.cn
 "@ | Set-Content -Path $envPath -Encoding UTF8
 }
 

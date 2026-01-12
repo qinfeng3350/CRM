@@ -1,29 +1,34 @@
 const mysql = require('mysql2/promise');
+require('dotenv').config();
 
 const pool = mysql.createPool({
-  host: '47.108.201.129', // 服务器地址（更新）
-  port: 3306,
-  database: 'mofengcrm',
-  user: 'mofengcrm',
-  password: 'mofengcrm',
+  host: process.env.DB_HOST || 'localhost',
+  port: parseInt(process.env.DB_PORT) || 3306,
+  database: process.env.DB_NAME || 'crm',
+  user: process.env.DB_USER || 'crm',
+  password: process.env.DB_PASSWORD || '',
   waitForConnections: true,
-  connectionLimit: 20, // 增加连接池大小
+  connectionLimit: 20,
   queueLimit: 0,
-  enableKeepAlive: true, // 启用keep-alive
-  keepAliveInitialDelay: 0, // 立即开始keep-alive
-  connectTimeout: 60000, // 连接超时时间（60秒）
-  idleTimeout: 300000, // 空闲连接超时（5分钟）
-  maxIdle: 10 // 最大空闲连接数
+  enableKeepAlive: true,
+  keepAliveInitialDelay: 0,
+  connectTimeout: 60000,
+  idleTimeout: 300000,
+  maxIdle: 10
 });
 
 const connectDB = async () => {
   try {
     const connection = await pool.getConnection();
+    const host = process.env.DB_HOST || 'localhost';
+    const port = process.env.DB_PORT || 3306;
+    const database = process.env.DB_NAME || 'crm';
+    const user = process.env.DB_USER || 'crm';
     console.log('\n==========================================');
     console.log('✅ MySQL数据库连接成功');
-    console.log('   主机: 47.108.201.129:3306');
-    console.log('   数据库: mofengcrm');
-    console.log('   用户: mofengcrm');
+    console.log(`   主机: ${host}:${port}`);
+    console.log(`   数据库: ${database}`);
+    console.log(`   用户: ${user}`);
     console.log('==========================================');
     connection.release();
   } catch (error) {
