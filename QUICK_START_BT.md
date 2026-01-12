@@ -2,14 +2,26 @@
 
 ## 🚀 5 分钟快速部署
 
+> Windows 宝塔面板用户可直接在网站目录终端执行：
+>
+> PowerShell（推荐）：
+> ```powershell
+> cd C:\wwwroot\mofengCRM
+> powershell -File scripts\deploy-bt-win.ps1
+> # 如需指定端口：
+> powershell -File scripts\deploy-bt-win.ps1 -Port 3000
+> ```
+>
+> 该脚本会：安装依赖 → 构建前端 → 生成 .env（如缺失）→ 使用 PM2 启动 → 健康检查。
+
 ### 1. 创建网站
 - 宝塔面板 → 网站 → 添加站点
-- 域名：`crm.example.com`（替换为你的域名）
-- 根目录：`/www/wwwroot/crm.example.com`
+- 域名：`crm.yunshangdingchuang.cn`
+- 根目录：`/www/wwwroot/crm.yunshangdingchuang.cn`
 
 ### 2. 克隆代码
 ```bash
-cd /www/wwwroot/crm.example.com
+cd /www/wwwroot/crm.yunshangdingchuang.cn
 git clone https://github.com/qinfeng3350/CRM.git .
 bash deploy.sh
 ```
@@ -28,8 +40,8 @@ DB_PORT=3306
 DB_NAME=crm
 DB_USER=crm
 DB_PASSWORD=你的数据库密码
-FRONTEND_URL=https://crm.example.com
-API_BASE_URL=https://crm.example.com/api
+FRONTEND_URL=https://crm.yunshangdingchuang.cn
+API_BASE_URL=https://crm.yunshangdingchuang.cn/api
 ```
 
 ### 5. 启动 PM2
@@ -46,7 +58,7 @@ API_BASE_URL=https://crm.example.com/api
 然后在网站设置 → 配置文件中，将 `location /` 修改为：
 ```nginx
 location / {
-    root /www/wwwroot/crm.example.com/client/dist;
+    root /www/wwwroot/crm.yunshangdingchuang.cn/client/dist;
     try_files $uri $uri/ /index.html;
 }
 ```
@@ -60,7 +72,7 @@ location / {
 
 ### 更新代码
 ```bash
-cd /www/wwwroot/crm.example.com
+cd /www/wwwroot/crm.yunshangdingchuang.cn
 git pull
 npm install
 cd client && npm install && cd ..

@@ -4,6 +4,7 @@ const compression = require('compression');
 const dotenv = require('dotenv');
 const path = require('path');
 const { connectDB } = require('./config/database');
+const { ensureDatabaseSchema } = require('./utils/dbMigrations');
 const dingTalkStreamService = require('./services/dingTalkStreamService');
 
 // 加载环境变量
@@ -73,6 +74,7 @@ app.use('/api/invoices', require('./routes/invoices'));
 app.use('/api/projects', require('./routes/projects'));
 app.use('/api/inventory', require('./routes/inventory'));
 app.use('/api/dingtalk', require('./routes/dingtalk'));
+app.use('/api/dashboards', require('./routes/dashboards'));
 
 // 健康检查
 app.get('/health', (req, res) => {
@@ -262,6 +264,10 @@ if (!process.env.VERCEL) {
     try {
       // 先连接数据库
       await connectDB();
+      // 确保数据库表结构完整（创建缺失的表和列）
+      console.log('🔧 正在检查并修复数据库表结构...');
+      await ensureDatabaseSchema();
+      console.log('✅ 数据库表结构检查完成');
       
       // 检查并释放端口
       const portAvailable = await ensurePortAvailable(PORT);

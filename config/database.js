@@ -1,19 +1,17 @@
 const mysql = require('mysql2/promise');
 
 const pool = mysql.createPool({
-  host: '39.106.142.253', // 服务器地址
+  host: '47.108.201.129', // 服务器地址（更新）
   port: 3306,
-  database: 'crm',
-  user: 'crm',
-  password: 'crm123',
+  database: 'mofengcrm',
+  user: 'mofengcrm',
+  password: 'mofengcrm',
   waitForConnections: true,
   connectionLimit: 20, // 增加连接池大小
   queueLimit: 0,
   enableKeepAlive: true, // 启用keep-alive
   keepAliveInitialDelay: 0, // 立即开始keep-alive
-  acquireTimeout: 60000, // 获取连接超时时间（60秒）
-  timeout: 60000, // 查询超时时间（60秒）
-  reconnect: true, // 自动重连
+  connectTimeout: 60000, // 连接超时时间（60秒）
   idleTimeout: 300000, // 空闲连接超时（5分钟）
   maxIdle: 10 // 最大空闲连接数
 });
@@ -23,9 +21,9 @@ const connectDB = async () => {
     const connection = await pool.getConnection();
     console.log('\n==========================================');
     console.log('✅ MySQL数据库连接成功');
-    console.log('   主机: 39.106.142.253:3306');
-    console.log('   数据库: crm');
-    console.log('   用户: crm');
+    console.log('   主机: 47.108.201.129:3306');
+    console.log('   数据库: mofengcrm');
+    console.log('   用户: mofengcrm');
     console.log('==========================================');
     connection.release();
   } catch (error) {

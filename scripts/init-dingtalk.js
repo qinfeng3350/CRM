@@ -36,8 +36,8 @@ const initDingTalk = async () => {
         \`corpId\` VARCHAR(255) COMMENT '企业CorpId',
         \`enabled\` TINYINT(1) DEFAULT 0 COMMENT '是否启用',
         \`callbackUrl\` VARCHAR(500) COMMENT '回调地址',
-        \`createdAt\` DATETIME DEFAULT CURRENT_TIMESTAMP,
-        \`updatedAt\` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        \`createdAt\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        \`updatedAt\` DATETIME DEFAULT NULL,
         UNIQUE KEY \`unique_config\` (\`id\`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='钉钉配置表'
     `);
@@ -54,10 +54,10 @@ const initDingTalk = async () => {
         \`mobile\` VARCHAR(50) COMMENT '手机号',
         \`email\` VARCHAR(255) COMMENT '邮箱',
         \`avatar\` VARCHAR(500) COMMENT '头像URL',
-        \`departmentIds\` JSON COMMENT '部门ID列表',
-        \`createdAt\` DATETIME DEFAULT CURRENT_TIMESTAMP,
-        \`updatedAt\` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        UNIQUE KEY \`unique_dingtalk_user\` (\`dingTalkUserId\`),
+        \`departmentIds\` TEXT COMMENT '部门ID列表(JSON字符串)',
+        \`createdAt\` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        \`updatedAt\` DATETIME DEFAULT NULL,
+        UNIQUE KEY \`unique_dingtalk_user\` (\`dingTalkUserId\`(191)),
         KEY \`idx_user_id\` (\`userId\`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='钉钉用户关联表'
     `);

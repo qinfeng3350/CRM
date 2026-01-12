@@ -22,7 +22,6 @@ import {
   AccountBookOutlined,
   FundProjectionScreenOutlined,
   InboxOutlined,
-  InboxInOutlined,
   DatabaseOutlined,
 } from '@ant-design/icons';
 
@@ -34,6 +33,9 @@ const MainLayout = () => {
   const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const selectedKey = location.pathname.startsWith('/dashboard/view')
+    ? '/dashboard/view'
+    : location.pathname;
 
   // 检测是否为移动端
   useEffect(() => {
@@ -53,6 +55,13 @@ const MainLayout = () => {
   }, []);
 
   const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+  const dashboardMenuChildren = [
+    { key: '/dashboard/view', label: '数据大屏展示' },
+    ...(user.role === 'admin' || user.role === 'sales_manager'
+      ? [{ key: '/admin/dashboards', label: '数据大屏管理' }]
+      : []),
+  ];
 
   const menuItems = [
     {
@@ -122,6 +131,12 @@ const MainLayout = () => {
       key: '/analytics',
       icon: <BarChartOutlined />,
       label: '数据分析',
+    },
+    {
+      key: '/data-screens',
+      icon: <FundProjectionScreenOutlined />,
+      label: '数据大屏',
+      children: dashboardMenuChildren,
     },
     {
       key: '/finance',
@@ -228,7 +243,7 @@ const MainLayout = () => {
           </div>
           <Menu
             mode="inline"
-            selectedKeys={[location.pathname]}
+            selectedKeys={[selectedKey]}
             items={menuItems}
             onClick={handleMenuClick}
           />
@@ -244,7 +259,7 @@ const MainLayout = () => {
         >
           <Menu
             mode="inline"
-            selectedKeys={[location.pathname]}
+            selectedKeys={[selectedKey]}
             items={menuItems}
             onClick={handleMenuClick}
           />

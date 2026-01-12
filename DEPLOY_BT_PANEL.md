@@ -23,9 +23,9 @@
 1. **登录宝塔面板** → 点击左侧 **"网站"** → 点击 **"添加站点"**
 
 2. **填写站点信息**：
-   - **域名**: 填写你的域名（如：`crm.example.com`）
+   - **域名**: 填写你的域名（如：`crm.yunshangdingchuang.cn`）
    - **备注**: CRM系统
-   - **根目录**: `/www/wwwroot/crm.example.com`（默认即可）
+   - **根目录**: `/www/wwwroot/crm.yunshangdingchuang.cn`（默认即可）
    - **FTP**: 不创建
    - **数据库**: 不创建（稍后手动创建）
    - **PHP版本**: 纯静态（因为前端是静态文件）
@@ -42,7 +42,7 @@
 
 2. **进入网站根目录**：
 ```bash
-cd /www/wwwroot/crm.example.com
+cd /www/wwwroot/crm.yunshangdingchuang.cn
 ```
 
 3. **克隆项目**：
@@ -65,6 +65,9 @@ bash deploy.sh
 
 1. 在宝塔面板 → **"文件"** → 进入网站目录
 2. 上传项目压缩包并解压
+   - ⚠️ **注意**：压缩前请排除 `node_modules`、`.git`、`dist` 等目录
+   - 详细说明请查看 `COMPRESS_SOLUTION.md`
+   - 推荐使用脚本：`powershell -File compress-for-upload.ps1`
 3. 在终端中进入项目目录，运行 `bash deploy.sh`
 
 ---
@@ -87,7 +90,7 @@ bash deploy.sh
 
 ```bash
 # 进入项目目录
-cd /www/wwwroot/crm.example.com
+cd /www/wwwroot/crm.yunshangdingchuang.cn
 
 # 安装后端依赖
 npm install
@@ -127,7 +130,7 @@ npm run build
 
 3. **或者运行初始化脚本**（如果项目有）：
 ```bash
-cd /www/wwwroot/crm.example.com
+cd /www/wwwroot/crm.yunshangdingchuang.cn
 node scripts/setup-database.js
 ```
 
@@ -164,12 +167,12 @@ DINGTALK_AGENT_ID=你的钉钉AgentId
 DINGTALK_CORP_ID=你的钉钉CorpId
 
 # 前端 URL（用于钉钉回调）
-FRONTEND_URL=https://crm.example.com
-API_BASE_URL=https://crm.example.com/api
+FRONTEND_URL=https://crm.yunshangdingchuang.cn
+API_BASE_URL=https://crm.yunshangdingchuang.cn/api
 ```
 
 **重要提示**：
-- 将 `crm.example.com` 替换为你的实际域名
+- 域名已配置为 `crm.yunshangdingchuang.cn`，如需修改请替换所有相关配置
 - 将数据库密码替换为实际密码
 - `JWT_SECRET` 请修改为随机字符串（可以使用在线工具生成）
 
@@ -184,7 +187,7 @@ API_BASE_URL=https://crm.example.com/api
 2. **使用配置文件启动**：
    - 点击 **"添加项目"**
    - **项目名称**: `crm-backend`
-   - **项目路径**: `/www/wwwroot/crm.example.com`
+   - **项目路径**: `/www/wwwroot/crm.yunshangdingchuang.cn`
    - **启动文件**: `ecosystem.config.js`（选择配置文件）
    - **Node版本**: 选择已安装的 Node.js 版本（如 18.x）
    - 点击 **"提交"** 启动项目
@@ -196,7 +199,7 @@ API_BASE_URL=https://crm.example.com/api
 2. **添加项目**：
    - 点击 **"添加项目"**
    - **项目名称**: `crm-backend`
-   - **项目路径**: `/www/wwwroot/crm.example.com`
+   - **项目路径**: `/www/wwwroot/crm.yunshangdingchuang.cn`
    - **启动文件**: `server.js`
    - **Node版本**: 选择已安装的 Node.js 版本（如 18.x）
    - **运行模式**: `fork`
@@ -253,7 +256,7 @@ location /api {
 
 ```nginx
 location / {
-    root /www/wwwroot/crm.example.com/client/dist;
+    root /www/wwwroot/crm.yunshangdingchuang.cn/client/dist;
     try_files $uri $uri/ /index.html;
     index index.html;
     
@@ -329,7 +332,7 @@ pm2 delete crm-backend
 
 ```bash
 # 进入项目目录
-cd /www/wwwroot/crm.example.com
+cd /www/wwwroot/crm.yunshangdingchuang.cn
 
 # 拉取最新代码
 git pull origin main
@@ -348,6 +351,29 @@ pm2 restart crm-backend
 ---
 
 ## 🐛 常见问题排查
+
+### 0. 文件无法删除（Windows 宝塔）
+
+**问题**：上传新代码时无法删除旧文件，提示"文件被另一个进程使用"
+
+**原因**：PM2 服务正在运行，占用了项目目录
+
+**解决方法**：
+1. 在 PM2 管理器中停止 `crm-backend` 服务
+2. 等待 5-10 秒让进程完全退出
+3. 然后再删除或覆盖文件
+4. 删除完成后重新启动服务
+
+**快速命令**：
+```bash
+pm2 stop crm-backend
+pm2 delete crm-backend
+# 等待几秒后再操作文件
+```
+
+**详细说明**：请查看 `BT_DELETE_SOLUTION.md`
+
+---
 
 ### 1. 后端服务无法启动
 
@@ -391,7 +417,7 @@ pm2 restart crm-backend
    - **记录值**: 你的服务器 IP 地址
    - **TTL**: 600（默认）
 
-2. **如果使用子域名**（如 `crm.example.com`）：
+2. **如果使用子域名**（如 `crm.yunshangdingchuang.cn`）：
    - **主机记录**: `crm`
    - **记录类型**: `A`
    - **记录值**: 你的服务器 IP 地址
@@ -423,7 +449,7 @@ pm2 restart crm-backend
 
 ## 🎉 部署完成
 
-部署完成后，访问你的域名（如：`https://crm.example.com`）即可使用系统。
+部署完成后，访问你的域名（如：`https://crm.yunshangdingchuang.cn`）即可使用系统。
 
 **默认管理员账号**（如果已初始化）：
 - 用户名：根据初始化脚本设置

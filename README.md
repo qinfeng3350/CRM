@@ -260,6 +260,15 @@ crm-system/
 - [ ] 性能优化
 - [ ] 文档完善
 
+## 📚 文档索引
+
+详细的文档列表和使用指南请查看：[DOCS_INDEX.md](./DOCS_INDEX.md)
+
+### 快速链接
+- [部署指南](./DEPLOY_BT_PANEL.md) - 宝塔面板部署
+- [API 文档](./API_DOCUMENTATION.md) - 完整 API 接口文档
+- [数据可视化指南](./DATA_VISUALIZATION_GUIDE.md) - 数据大屏开发指南
+
 ## 许可证
 
 ISC

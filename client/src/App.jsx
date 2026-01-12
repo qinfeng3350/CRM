@@ -17,6 +17,8 @@ import OpportunityList from './pages/Opportunities/OpportunityList';
 import ContractList from './pages/Contracts/ContractList';
 import MarketingLeads from './pages/Marketing/MarketingLeads';
 import MarketingCampaigns from './pages/Marketing/MarketingCampaigns';
+import DashboardManager from './pages/Dashboard/DashboardManager';
+import DynamicDashboard from './pages/Dashboard/DynamicDashboard';
 import ServiceTickets from './pages/Service/ServiceTickets';
 import SalesTeam from './pages/Sales/SalesTeam';
 import Analytics from './pages/Analytics/Analytics';
@@ -119,6 +121,9 @@ function App() {
           >
             <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="dashboard/:id" element={<DynamicDashboard />} />
+            <Route path="dashboard/view" element={<DynamicDashboard />} />
+            <Route path="dashboard/view/:id" element={<DynamicDashboard />} />
             <Route path="customers" element={<CustomerList />} />
             <Route path="customers/:id" element={<CustomerDetail />} />
             <Route path="products" element={<ProductList />} />
@@ -170,6 +175,7 @@ function App() {
             <Route path="inventory/profit-analysis" element={<ProfitAnalysis />} />
             <Route path="inventory/sales-profit-analysis" element={<SalesProfitAnalysis />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="admin/dashboards" element={<DashboardManager />} />
           </Route>
         </Routes>
       </BrowserRouter>

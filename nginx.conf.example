@@ -22,7 +22,7 @@ location /api {
 
 # 前端静态文件配置
 location / {
-    root /www/wwwroot/crm.example.com/client/dist;
+    root /www/wwwroot/crm.yunshangdingchuang.cn/client/dist;
     try_files $uri $uri/ /index.html;
     index index.html;
     

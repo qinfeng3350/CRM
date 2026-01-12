@@ -1,0 +1,183 @@
+/* 数据大屏管理页面样式 */
+
+.dashboard-manager {
+  padding: 24px;
+  background: #f5f5f5;
+  min-height: 100vh;
+}
+
+.dashboard-manager-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.dashboard-manager-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.dashboard-manager-header p {
+  margin: 8px 0 0 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.dashboard-name {
+  font-weight: 500;
+  color: #1890ff;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.dashboard-name:hover {
+  color: #40a9ff;
+}
+
+/* 表格样式优化 */
+.ant-table {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.ant-table-thead > tr > th {
+  background: #fafafa;
+  font-weight: 600;
+}
+
+.ant-table-tbody > tr:hover > td {
+  background: #f5f5f5;
+}
+
+/* 标签样式 */
+.ant-tag {
+  border-radius: 4px;
+}
+
+/* 按钮组样式 */
+.ant-space-item {
+  display: inline-flex;
+}
+
+/* 空状态 */
+.ant-empty {
+  background: white;
+  border-radius: 8px;
+  padding: 60px 20px;
+}
+
+/* 卡片样式 */
+.ant-card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 16px;
+}
+
+/* 模态框样式 */
+.ant-modal-content {
+  border-radius: 8px;
+}
+
+.ant-modal-header {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.ant-modal-title {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+/* 表单样式 */
+.ant-form-item {
+  margin-bottom: 20px;
+}
+
+.ant-form-item-label > label {
+  font-weight: 500;
+}
+
+.ant-input,
+.ant-input-number,
+.ant-select-selector {
+  border-radius: 4px;
+  height: 36px;
+  border: 1px solid #d9d9d9;
+}
+
+.ant-input-number {
+  width: 100%;
+}
+
+.ant-input:focus,
+.ant-input-number-focused,
+.ant-select-focused .ant-select-selector {
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+/* 分割线 */
+.ant-divider {
+  margin: 20px 0;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .dashboard-manager {
+    padding: 16px;
+  }
+
+  .dashboard-manager-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .dashboard-manager-header h2 {
+    font-size: 20px;
+  }
+
+  .ant-table {
+    font-size: 12px;
+  }
+
+  .ant-table-cell {
+    padding: 12px 8px;
+  }
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dashboard-manager {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* 加载态 */
+.ant-spin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 成功提示 */
+.ant-message-success {
+  top: 24px;
+  right: 24px;
+}
+
+/* 提示信息 */
+.ant-tooltip-inner {
+  border-radius: 4px;
+}
