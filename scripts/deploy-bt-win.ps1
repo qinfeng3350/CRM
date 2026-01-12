@@ -76,7 +76,21 @@ npm run build
 if($LASTEXITCODE -ne 0){ Write-Host "前端构建失败" -ForegroundColor Red; Pop-Location; exit 1 }
 Pop-Location
 
-# 5) 日志目录
+# 5) 自动修复 Nginx 配置
+Write-Host "自动修复 Nginx 配置..." -ForegroundColor Cyan
+$nginxConf = "C:\BtSoft\nginx\conf\proxy\mofengcrm\mofengCRM.conf"
+if (Test-Path $nginxConf) {
+    $content = Get-Content $nginxConf -Raw
+    if ($content -match '127\.0\.0\.1:0') {
+        Write-Host "修复端口配置：0 → 3000" -ForegroundColor Yellow
+        $content = $content -replace '127\.0\.0\.1:0', '127.0.0.1:3000'
+        $content = $content -replace 'server\s+127\.0\.0\.1:0;', 'server 127.0.0.1:3000;'
+        Set-Content -Path $nginxConf -Value $content -NoNewline
+        Write-Host "✅ Nginx 配置已修复" -ForegroundColor Green
+    }
+}
+
+# 6) 日志目录
 $logsDir = Join-Path $ProjectRoot "logs"
 if(-not (Test-Path $logsDir)){ New-Item -ItemType Directory -Path $logsDir | Out-Null }
 

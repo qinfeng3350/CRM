@@ -70,9 +70,21 @@ if [ $? -ne 0 ]; then
 fi
 echo "✅ 前端构建完成"
 
-# 5. 检查构建结果
+# 5. 自动修复 Nginx 配置（如果存在）
 echo ""
-echo "🔍 步骤 5/5: 检查构建结果..."
+echo "🔧 步骤 5/6: 自动修复 Nginx 配置..."
+NGINX_CONF="/www/server/nginx/conf/proxy/mofengcrm/mofengCRM.conf"
+if [ -f "$NGINX_CONF" ]; then
+    if grep -q "127.0.0.1:0" "$NGINX_CONF"; then
+        echo "修复 Nginx 端口配置：0 → 3000"
+        sed -i 's/127\.0\.0\.1:0/127.0.0.1:3000/g' "$NGINX_CONF"
+        echo "✅ Nginx 配置已修复"
+    fi
+fi
+
+# 6. 检查构建结果
+echo ""
+echo "🔍 步骤 6/6: 检查构建结果..."
 if [ -d "client/dist" ] && [ "$(ls -A client/dist)" ]; then
     echo "✅ 前端构建文件已生成: client/dist"
 else
